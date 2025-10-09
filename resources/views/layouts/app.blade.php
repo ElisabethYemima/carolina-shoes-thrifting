@@ -274,7 +274,7 @@
                 </svg>
                 <button class="btn-close-lg position-absolute top-0 start-0 w-100"></button>
             </a>
-
+            {{-- // logo is here --}}
             <div class="logo">
                 <a href="{{ route('home.index') }}">
                     <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
