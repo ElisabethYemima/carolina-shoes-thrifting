@@ -10,7 +10,7 @@
         "intervention/image-laravel": "^1.2",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "laravel/ui": "^4.5",
+        "laravel/ui": "^4.6",
         "surfsidemedia/shoppingcart": "^1.0"
     },
     "require-dev": {
@@ -62,6 +62,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "audit": {
+            "block-insecure": false
         }
     },
     "minimum-stability": "stable",
