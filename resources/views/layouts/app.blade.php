@@ -276,8 +276,9 @@
             </a>
             {{-- // logo is here --}}
             <div class="logo">
-                <a href="{{ route('home.index') }}">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
+                <a href="{{ route('admin.index') }}" id="site-logo-inner"
+                    style="font-weight: 800; font-size: 20px; color: #111; letter-spacing: 1px;">
+                    KAROLINA THRIFT SHOES
                 </a>
             </div>
 
@@ -397,9 +398,9 @@
         <div class="container">
             <div class="header-desk header-desk_type_1">
                 <div class="logo">
-                    <a href="{{ route('home.index') }}">
-                        <img src=" {{ asset('assets/images/logo.png') }}" alt="Uomo"
-                            class="logo__image d-block" />
+                    <a href="{{ route('admin.index') }}" id="site-logo-inner"
+                        style="font-weight: 800; font-size: 20px; color: #111; letter-spacing: 1px;">
+                        KAROLINA SHOES
                     </a>
                 </div>
 
@@ -516,9 +517,9 @@
             <div class="row row-cols-lg-5 row-cols-2">
                 <div class="footer-column footer-store-info col-12 mb-4 mb-lg-0">
                     <div class="logo">
-                        <a href="{{ route('home.index') }}">
-                            <img src=" {{ asset('assets/images/logo.png ') }}" alt="SurfsideMedia"
-                                class="logo__image d-block" />
+                        <a href="{{ route('admin.index') }}" id="site-logo-inner"
+                            style="font-weight: 800; font-size: 20px; color: #111; letter-spacing: 1px;">
+                            KAROLINA SHOES
                         </a>
                     </div>
                     <p class="footer-address">123 Cairo, Egypt</p>
@@ -700,16 +701,19 @@
         $(function() {
             $("#search-input").on("keyup", function() {
                 var searchQuery = $(this).val();
-                if(searchQuery.length > 2) {
+                if (searchQuery.length > 2) {
                     $.ajax({
                         type: "GET",
                         url: "{{ route('home.search') }}",
-                        data: { query: searchQuery },
+                        data: {
+                            query: searchQuery
+                        },
                         dataType: 'json',
                         success: function(data) {
                             $("#box-content-search").html('');
                             $.each(data, function(index, item) {
-                                var url = "{{ route('shop.product.details', ['product_slug' => 'product_slg_pls']) }}";
+                                var url =
+                                    "{{ route('shop.product.details', ['product_slug' => 'product_slg_pls']) }}";
                                 var link = url.replace('product_slg_pls', item.slug);
 
                                 $("#box-content-search").append(

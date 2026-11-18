@@ -4,7 +4,7 @@
         <div class="mb-4 pb-4"></div>
         <section class="about-us container">
             <div class="mw-930">
-                <h2 class="page-title">ABOUT CAROLINA SHOES THRIFTING</h2>
+                <h2 class="page-title">ABOUT KAROLINA SHOES THRIFTING</h2>
             </div>
 
             <div class="about-us__content pb-5 mb-5">

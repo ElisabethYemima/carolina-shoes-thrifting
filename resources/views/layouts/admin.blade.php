@@ -40,9 +40,9 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
-                        <a href="{{ route('admin.index') }}" id="site-logo-inner">
-                            <img class="" id="logo_header_1" alt="" src="{{asset('images/logo/logo.png') }}"
-                                data-light="{{asset('images/logo/logo.png') }}" data-dark="{{asset('images/logo/logo.png') }}">
+                        <a href="{{ route('admin.index') }}" id="site-logo-inner"
+                            style="font-weight: 800; font-size: 20px; color: #111; letter-spacing: 1px;">
+                            KAROLINA SHOES
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -69,12 +69,12 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.product.add')}}" class="">
+                                            <a href="{{ route('admin.product.add') }}" class="">
                                                 <div class="text">Add Product</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.products')}}" class="">
+                                            <a href="{{ route('admin.products') }}" class="">
                                                 <div class="text">Products</div>
                                             </a>
                                         </li>
@@ -87,12 +87,12 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.brands.add')}}" class="">
+                                            <a href="{{ route('admin.brands.add') }}" class="">
                                                 <div class="text">New Brand</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.brands')}}" class="">
+                                            <a href="{{ route('admin.brands') }}" class="">
                                                 <div class="text">Brands</div>
                                             </a>
                                         </li>
@@ -105,12 +105,12 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.category.add')}}" class="">
+                                            <a href="{{ route('admin.category.add') }}" class="">
                                                 <div class="text">New Category</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.categories')}}" class="">
+                                            <a href="{{ route('admin.categories') }}" class="">
                                                 <div class="text">Categories</div>
                                             </a>
                                         </li>
@@ -124,7 +124,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.orders')}}" class="">
+                                            <a href="{{ route('admin.orders') }}" class="">
                                                 <div class="text">Orders</div>
                                             </a>
                                         </li>
@@ -136,19 +136,19 @@
                                     </ul>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="{{route('admin.slides')}}" class="">
+                                    <a href="{{ route('admin.slides') }}" class="">
                                         <div class="icon"><i class="icon-image"></i></div>
                                         <div class="text">Slides</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="{{route('admin.coupons')}}" class="">
+                                    <a href="{{ route('admin.coupons') }}" class="">
                                         <div class="icon"><i class="icon-grid"></i></div>
                                         <div class="text">Coupns</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="{{route('admin.contacts')}}" class="">
+                                    <a href="{{ route('admin.contacts') }}" class="">
                                         <div class="icon"><i class="icon-mail"></i></div>
                                         <div class="text">Contacts</div>
                                     </a>
@@ -170,7 +170,8 @@
                                 <li class="menu-item">
                                     <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                         @csrf
-                                        <a href="{{ route('logout') }}" class="" onclick=" event.preventDefault();document.getElementById('logout-form').submit(); ">
+                                        <a href="{{ route('logout') }}" class=""
+                                            onclick=" event.preventDefault();document.getElementById('logout-form').submit(); ">
                                             <div class="icon"><i class="icon-settings"></i></div>
                                             <div class="text">Logout</div>
                                         </a>
@@ -187,20 +188,21 @@
                             <div class="header-left">
                                 <a href="index-2.html">
                                     <img class="" id="logo_header_mobile" alt=""
-                                        src="{{asset('images/logo/logo.png') }}" data-light="{{asset('images/logo/logo.png') }}"
-                                        data-dark="{{asset('images/logo/logo.png') }}" data-width="154px" data-height="52px"
-                                        data-retina="{{asset('images/logo/logo.png') }}">
+                                        src="{{ asset('images/logo/logo.png') }}"
+                                        data-light="{{ asset('images/logo/logo.png') }}"
+                                        data-dark="{{ asset('images/logo/logo.png') }}" data-width="154px"
+                                        data-height="52px" data-retina="{{ asset('images/logo/logo.png') }}">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>
                                 </div>
 
 
-                                <form class="form-search flex-grow" >
+                                <form class="form-search flex-grow">
                                     <fieldset class="name">
                                         <input type="text" placeholder="Search here..." class="show-search"
-                                            name="name" id="search-input" tabindex="2" value="" aria-required="true"
-                                            required="" autocomplete="off">
+                                            name="name" id="search-input" tabindex="2" value=""
+                                            aria-required="true" required="" autocomplete="off">
                                     </fieldset>
                                     <div class="button-submit">
                                         <button class="" type="submit"><i class="icon- ajax"></i></button>
@@ -374,16 +376,19 @@
         $(function() {
             $("#search-input").on("keyup", function() {
                 var searchQuery = $(this).val();
-                if(searchQuery.length > 2) {
+                if (searchQuery.length > 2) {
                     $.ajax({
                         type: "GET",
                         url: "{{ route('admin.search') }}",
-                        data: { query: searchQuery },
+                        data: {
+                            query: searchQuery
+                        },
                         dataType: 'json',
                         success: function(data) {
                             $("#box-content-search").html('');
                             $.each(data, function(index, item) {
-                                var url = "{{ route('admin.product.edit', ['id' => 'product_id']) }}";
+                                var url =
+                                    "{{ route('admin.product.edit', ['id' => 'product_id']) }}";
                                 var link = url.replace('product_id', item.id);
 
                                 $("#box-content-search").append(
