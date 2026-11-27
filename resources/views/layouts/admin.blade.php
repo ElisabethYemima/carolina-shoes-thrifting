@@ -28,6 +28,26 @@
 </head>
 
 <body class="body">
+
+    <style>
+        .wg-box .table-responsive table {
+            table-layout: auto !important;
+            width: 100% !important;
+        }
+
+        .wg-box .table-responsive tr {
+            display: table-row !important;
+        }
+
+        .wg-box .table-responsive th,
+        .wg-box .table-responsive td {
+            display: table-cell !important;
+            vertical-align: middle !important;
+            padding: 14px 16px !important;
+            white-space: nowrap;
+        }
+    </style>
+
     <div id="wrapper">
         <div id="page" class="">
             <div class="layout-wrap">
@@ -155,7 +175,7 @@
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="users.html" class="">
+                                    <a href="{{ route('admin.users') }}" class="">
                                         <div class="icon"><i class="icon-user"></i></div>
                                         <div class="text">User</div>
                                     </a>

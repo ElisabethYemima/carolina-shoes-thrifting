@@ -1,16 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Contact;
-use App\Models\Coupon;
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Transaction;
 use App\Models\Product;
-use App\Models\Slide;
+use App\Models\User;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\ContactService;
@@ -18,14 +12,10 @@ use App\Services\CouponService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Services\SlideService;
-use Carbon\Carbon;
-use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
-use function PHPUnit\Framework\returnValueMap;
 
 class AdminController extends Controller
 {
@@ -44,21 +34,20 @@ class AdminController extends Controller
         OrderService $orderService,
         SlideService $slideService,
         ContactService $contactService,
-        )
-    {
-        $this->brandService = $brandService;
+    ) {
+        $this->brandService    = $brandService;
         $this->categoryService = $categoryService;
-        $this->productService = $productService;
-        $this->couponService = $couponService;
-        $this->orderService = $orderService;
-        $this->slideService = $slideService;
-        $this->contactService = $contactService;
+        $this->productService  = $productService;
+        $this->couponService   = $couponService;
+        $this->orderService    = $orderService;
+        $this->slideService    = $slideService;
+        $this->contactService  = $contactService;
     }
 
     //---------------------- Index --------------------------
     public function index()
     {
-        $orders = Order::orderBy('created_at', 'DESC')->get()->take(5);
+        $orders         = Order::orderBy('created_at', 'DESC')->get()->take(5);
         $dashboardDatas = DB::select("Select sum(total) As TotalAmount,
                                         sum(if(status='ordered',total,0)) As TotalOrderedAmount,
                                         sum(if(status='delivered',total,0)) As TotalDeliveredAmount,
@@ -83,16 +72,15 @@ class AdminController extends Controller
                                     From orders WHERE YEAR(created_at)=YEAR(NOW()) GROUP BY YEAR(created_at), MONTH(created_at) , DATE_FORMAT(created_at, '%b')
                                     Order By MONTH(created_at)) D On D.MonthNo=M.id");
 
-        $AmountM = implode(',', collect($monthlyDatas)->pluck('TotalAmount')->toArray());
-        $OrderedAmountM = implode(',', collect($monthlyDatas)->pluck('TotalOrderedAmount')->toArray());
+        $AmountM          = implode(',', collect($monthlyDatas)->pluck('TotalAmount')->toArray());
+        $OrderedAmountM   = implode(',', collect($monthlyDatas)->pluck('TotalOrderedAmount')->toArray());
         $DeliveredAmountM = implode(',', collect($monthlyDatas)->pluck('TotalDeliveredAmount')->toArray());
-        $CanceledAmountM = implode(',', collect($monthlyDatas)->pluck('TotalCanceledAmount')->toArray());
+        $CanceledAmountM  = implode(',', collect($monthlyDatas)->pluck('TotalCanceledAmount')->toArray());
 
-        $TotalAmount = collect($monthlyDatas)->sum('TotalAmount');
-        $TotalOrderedAmount = collect($monthlyDatas)->sum('TotalOrderedAmount');
+        $TotalAmount          = collect($monthlyDatas)->sum('TotalAmount');
+        $TotalOrderedAmount   = collect($monthlyDatas)->sum('TotalOrderedAmount');
         $TotalDeliveredAmount = collect($monthlyDatas)->sum('TotalDeliveredAmount');
-        $TotalCanceledAmount = collect($monthlyDatas)->sum('TotalCanceledAmount');
-
+        $TotalCanceledAmount  = collect($monthlyDatas)->sum('TotalCanceledAmount');
 
         return view("admin.index", compact('orders', 'dashboardDatas', 'AmountM', 'OrderedAmountM', 'DeliveredAmountM', 'CanceledAmountM', 'TotalAmount', 'TotalOrderedAmount', 'TotalDeliveredAmount', 'TotalCanceledAmount'));
 
@@ -124,11 +112,12 @@ class AdminController extends Controller
         $this->brandService->updateBrand($request);
         return redirect()->route('admin.brands')->with('status', 'Brand updated successfully!');
     }
-    public static function brands_delete($brand_id){
+    public static function brands_delete($brand_id)
+    {
         $brand = Brand::find($brand_id);
-        if (File::exists(public_path('uploads/brands') . '/' . $brand->image))   // File::exists(...): Checks if the old image exists in the specified directory.
+        if (File::exists(public_path('uploads/brands') . '/' . $brand->image)); // File::exists(...): Checks if the old image exists in the specified directory.
         {
-            File::delete(public_path('uploads/brands') . '/' . $brand->image);   // File::delete(...): Deletes the old image to avoid unused files taking up space.
+            File::delete(public_path('uploads/brands') . '/' . $brand->image); // File::delete(...): Deletes the old image to avoid unused files taking up space.
         }
         $brand->delete();
         return redirect()->route('admin.brands')->with('status', 'Brand has been Deleted successfully!');
@@ -184,7 +173,7 @@ class AdminController extends Controller
     public function product_edit($id)
     {
         $product = $this->productService->getProductById($id);
-        $data = $this->productService->getCategoriesAndBrands();
+        $data    = $this->productService->getCategoriesAndBrands();
         return view("admin.products.product-edit", compact('product') + $data);
     }
     public function product_update(Request $request)
@@ -288,26 +277,56 @@ class AdminController extends Controller
         return redirect()->route('admin.slides')->with("error", "Slide not found!");
     }
 
-  //---------------------------------- Contacts Functions ----------------------------------
+    //---------------------------------- Contacts Functions ----------------------------------
 
-  public function contacts()
-  {
-      $contacts = $this->contactService->getAllContacts();
-      return view('admin.contact.contact-home', compact('contacts'));
-  }
+    public function contacts()
+    {
+        $contacts = $this->contactService->getAllContacts();
+        return view('admin.contact.contact-home', compact('contacts'));
+    }
 
-  public function contact_delete($id)
-  {
-      $this->contactService->deleteContact($id);
-      return redirect()->route('admin.contacts')->with("status", "Contact deleted successfully!");
-  }
+    public function contact_delete($id)
+    {
+        $this->contactService->deleteContact($id);
+        return redirect()->route('admin.contacts')->with("status", "Contact deleted successfully!");
+    }
 
     //--------------------------- Search Functions -----------------------------
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query   = $request->input('query');
         $results = Product::where('name', 'LIKE', "%{$query}%")->take(8)->get();
         return response()->json($results);
     }
 
+    //--------------------------- Users Functions -----------------------------
+    public function users(Request $request)
+    {
+        $query = User::withCount('orders')->orderBy('id', 'DESC');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('mobile', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->paginate(10)->withQueryString();
+
+        return view('admin.user.user-home', compact('users')); // Sesuaikan ke user-home
+    }
+
+    public function addUser()
+    {
+        return view('admin.user.user-add'); // Sesuaikan ke user-add
+    }
+
+    public function editUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('admin.user.user-edit', compact('user')); // Sesuaikan ke user-edit
+    }
 }

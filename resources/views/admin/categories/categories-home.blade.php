@@ -39,10 +39,10 @@
                         @if (Session::has('status'))
                             <p class="alert alert-success"> {{ Session::get('status') }} </p>
                         @endif
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered" style="table-layout: auto; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Name</th>
                                     <th>Slug</th>
                                     <th>Products</th>

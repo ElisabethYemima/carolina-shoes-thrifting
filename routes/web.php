@@ -121,6 +121,14 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
     // Search Route
     Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search');
+
+    // User Route
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/user/add', [AdminController::class, 'addUser'])->name('admin.user.add');
+    Route::post('/admin/user/store', [AdminController::class, 'storeUser'])->name('admin.user.store');
+    Route::get('/admin/user/{id}/edit', [AdminController::class, 'editUser'])->name('admin.user.edit');
+    Route::put('/admin/user/update', [AdminController::class, 'updateUser'])->name('admin.user.update');
+    Route::delete('/admin/user/{id}/delete', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 });
