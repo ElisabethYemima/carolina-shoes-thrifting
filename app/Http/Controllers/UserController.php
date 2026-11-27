@@ -9,6 +9,8 @@ use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -47,4 +49,38 @@ class UserController extends Controller
         }
         return back()->with('error', "Order cancellation failed!");
     }
+
+    public function accountDetails()
+{
+    return view('user.account-details');
+}
+
+public function updateAccountDetails(Request $request)
+{
+    $user = User::find(Auth::id());
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'mobile' => 'required|digits_between:10,15|unique:users,mobile,' . $user->id,
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'old_password' => 'nullable|required_with:new_password',
+        'new_password' => 'nullable|min:8|confirmed',
+    ]);
+
+    $user->name = $request->name;
+    $user->mobile = $request->mobile;
+    $user->email = $request->email;
+
+    // Jika user mengisi password baru
+    if ($request->filled('new_password')) {
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->withErrors(['old_password' => 'Password lama tidak sesuai!']);
+        }
+        $user->password = Hash::make($request->new_password);
+    }
+
+    $user->save();
+
+    return back()->with('status', 'Account details berhasil diperbarui!');
+}
 }

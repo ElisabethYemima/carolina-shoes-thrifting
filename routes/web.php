@@ -61,6 +61,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('/account-orders/{order_id}/details', [UserController::class, 'order_details'])->name('user.orders.details');
     Route::put('/account-order/cancel-order', [UserController::class, 'order_cancel'])->name('user.order.cancel');
+    Route::middleware(['auth'])->group(function () {
+    Route::get('/account-details', [UserController::class, 'accountDetails'])->name('user.account.details');
+    Route::put('/account-details/update', [UserController::class, 'updateAccountDetails'])->name('user.account.update');
+});
 });
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------
