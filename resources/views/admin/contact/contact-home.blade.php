@@ -43,7 +43,7 @@
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Name</th>
                                     <th>Phone</th>
                                     <th>Email</th>

@@ -181,12 +181,12 @@
                                     </a>
                                 </li>
 
-                                <li class="menu-item">
+                                {{-- <li class="menu-item">
                                     <a href="settings.html" class="">
                                         <div class="icon"><i class="icon-settings"></i></div>
                                         <div class="text">Settings</div>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="menu-item">
                                     <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                         @csrf
@@ -332,12 +332,12 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#" class="user-item">
+                                                <a href="{{ route('admin.contacts') }}" class="user-item">
                                                     <div class="icon">
                                                         <i class="icon-mail"></i>
                                                     </div>
                                                     <div class="body-title-2">Inbox</div>
-                                                    <div class="number">27</div>
+                                                    <div class="number" style="color: blue">{{ $inboxCount ?? 0 }}</div>
                                                 </a>
                                             </li>
                                             <li>
@@ -357,12 +357,17 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="login.html" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-log-out"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Log out</div>
-                                                </a>
+                                                <form method="POST" action="{{ route('logout') }}"
+                                                    id="logout-form-header">
+                                                    @csrf
+                                                    <a href="{{ route('logout') }}" class="user-item"
+                                                        onclick="event.preventDefault(); document.getElementById('logout-form-header').submit();">
+                                                        <div class="icon">
+                                                            <i class="icon-log-out"></i>
+                                                        </div>
+                                                        <div class="body-title-2">Log out</div>
+                                                    </a>
+                                                </form>
                                             </li>
                                         </ul>
                                     </div>
