@@ -17,7 +17,7 @@ class LoginController extends Controller
             return redirect()->route('admin.index');
         }
 
-        return redirect()->route('home.index'); \
+        return redirect()->route('home.index'); 
     }
 
     public function __construct()
